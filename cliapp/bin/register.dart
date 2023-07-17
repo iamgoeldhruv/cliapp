@@ -20,6 +20,7 @@ void main(List<String> arguments) async{
    print("ENTER PASSWORD");
    String?pass = stdin.readLineSync();
    await db.storeCredentials('$username','$pass');
+   print("YOUR REGISTRATION HAS BEEN SUCCESSFULLY DONE");
     await db.disconnect();
    
 

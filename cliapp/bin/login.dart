@@ -2,7 +2,9 @@
 import 'package:cliapp/database.dart' as dbs;
 import 'package:cliapp/loginuser.dart' as login;
 import 'dart:io';
+
 void main(List<String> arguments) async{
+  
   print("WELCOME TO LOGIN PAGE");
   print("ENTER YOUR USERNAME");
   String?username = stdin.readLineSync();
@@ -20,15 +22,26 @@ void main(List<String> arguments) async{
       if(checkpassword==true)
       {
 
-        print("LOGIN SUCCESSFULL");
+        
         await db.disconnect();
         final connectionString = 'mongodb://localhost:27017/cliproject';
         final active = login.activeuser(connectionString);
         await active.connect();
-        await active.storeCredentials('$username','$pass');
-        await active.disconnect();
+        bool checkactiveuser=await active.checkuser('$username');
+        if(checkactiveuser==true)
+        {
+          print("U ARE ALREADY LOGGED IN");
+          await active.disconnect();
+          break;
+          
+        }
+        else{
+          await active.storeCredentials('$username','$pass');
+          await active.disconnect();
+          print("LOGIN SUCCESSFULL");
 
-        break;
+          break;
+        }
       }
       else{
         print("WRONG PASSWORD!TRY AGAIN");

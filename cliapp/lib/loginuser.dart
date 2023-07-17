@@ -18,6 +18,28 @@ class activeuser{
     };
     await collection?.insert(document);
   }
+  Future<bool> checkuser(String username) async
+  {
+    final collection = _active!.collection('activeuser');
+    final usernameToCheck = username;
+     final query = where.eq('username', usernameToCheck);
+    final result = await collection.findOne(query);
+   
+    if (result != null) {
+    return true;
+    }
+    else{
+      return false;
+    }
+  }
+  Future<void> delete(String? username) async{
+    final activeUserCollection = _active!.collection('activeuser');
+
+  final usernameToDelete = username;
+
+  await activeUserCollection.deleteOne(where.eq('username', usernameToDelete));
+  
+  }
   Future<void> disconnect() async {
     await _active?.close();
   }
