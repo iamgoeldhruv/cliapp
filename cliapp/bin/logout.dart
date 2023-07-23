@@ -1,7 +1,7 @@
 import 'package:cliapp/loginuser.dart' as logout;
 import 'dart:io';
 
- void main(List<String> arguments) async
+ Future<void> logoutt() async
  {
   print("ENTER YOUR USERNAME");
   String?username = stdin.readLineSync();

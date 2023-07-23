@@ -1,9 +1,10 @@
-import 'package:cliapp/server.dart' as server;
+import 'package:cliapp/serverdatabase.dart' as server;
+
 import 'dart:io';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:cliapp/loginuser.dart' as login;
 
-void main(List<String> arguments) async{
+Future<void> createserver() async{
   print("ENTER YOUR USERNAME");
   String?username = stdin.readLineSync();
   final connectionString = 'mongodb://localhost:27017/cliproject';

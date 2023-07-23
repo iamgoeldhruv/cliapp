@@ -2,12 +2,19 @@
 import 'package:cliapp/database.dart' as dbs;
 import 'package:cliapp/loginuser.dart' as login;
 import 'dart:io';
-
-void main(List<String> arguments) async{
+import 'package:args/args.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
+ Future <void> loginn() async{
   
   print("WELCOME TO LOGIN PAGE");
-  print("ENTER YOUR USERNAME");
-  String?username = stdin.readLineSync();
+  stdout.write('ENTER YOUR USERNAME ');
+  final username = await stdin.readLineSync();
+
+ 
+ 
+  
+  
   final connectionString = 'mongodb://localhost:27017/cliproject';
   final db = dbs.Database(connectionString);
   await db.connect();
@@ -18,7 +25,9 @@ void main(List<String> arguments) async{
     {
       print("ENTER PASSWORD");
       String?pass = stdin.readLineSync();
-      bool checkpassword=await db.checkpassword('$username','$pass');
+      var bytes=utf8.encode(pass!);
+      var digest=sha256.convert(bytes);
+      bool checkpassword=await db.checkpassword('$username',digest.toString());
       if(checkpassword==true)
       {
 

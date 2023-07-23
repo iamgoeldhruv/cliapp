@@ -1,68 +1,47 @@
 import 'package:mongo_dart/mongo_dart.dart';
+import 'serverdatabase.dart';
 import 'dart:io';
-class serverdatabase {
-  Db ?_server;
 
-  serverdatabase(String connectionString) {
-    _server = Db(connectionString);
-    
-
-    
-  }
-  Future<void> connect() async {
-    await _server?.open();
-    
-  }
-  Future<void> storeCredentials(String servername, String creator) async {
-    final collection = _server?.collection('servername');
-    final document = {
-      '_id': ObjectId(), 
-      'servername': servername,
-      'creator': creator,
-      'joinedusers':[],
-    };
-    await collection?.insert(document);
-  }
-  Future<void> showserver() async{
-    final servernameCollection = _server!.collection('servername');
-
-  
-  final List<String> serverNames = [];
-  await for (var doc in servernameCollection.find()) {
-    serverNames.add(doc['servername'] as String);
-  }
-
+class Server extends serverdatabase {
+  String? servername;
  
-  print(serverNames);
+  
 
-  }
-  Future<void> joinserver(String?servername,String?username)async{
-    final servernameCollection = _server!.collection('servername');
-    final serverName = servername; 
-    final userName = username;
-     
 
-     
-    final updateResult = await servernameCollection.update(
-    where.eq('servername', serverName),
+  Server(String servername, String connectionString) : super(connectionString) {
+    this.servername = servername;
    
-    modify.addToSet('joinedusers', username),
     
-    );
-    print('U ARE SUCCESSFULLY ADDEDD TO SERVER');
-    if (updateResult['nModified'] == 1) {
-    print('Username added to the server');
-  } else {
-    print('Username already exists in the joinedusers array.');
   }
 
+  Future<void> addRole(String username ,String role) async {
+    final user = username;
+    
+    await connect();
+   
+    final collection =server!.collection('servername');
 
+   final document = await collection.findOne(where.eq('servername', servername));
     
+     if (document == null) {
+      print('Server not found.');
+      await disconnect();
+      return;
+    }
+     
+       Map<String, String> roles = Map<String, String>.from(document['roles'] ?? {});
+   
+      // Add the username and role to the map.
+      roles[username] = role;
+
+      // Update the document with the new `roles` field.
+      await collection.update(
+        where.eq('servername', servername),
+        modify.set('roles', roles),
+      );
     
+  
+     await disconnect();
 
   }
-   Future<void> disconnect() async {
-    await _server?.close();
-  }
-
 }
