@@ -1,8 +1,9 @@
 # cliapp
-a command line tool trying to replicate discord created using dart and utilising OOPS concepts
-TO USE THIS REPO GIT CLONE THE GIVEN REPO gh repo clone iamgoeldhruv/cliapp
-COMMANDS:
-1. register:
+a command line tool trying to replicate discord created using dart and utilising OOPS concepts/n
+
+TO USE THIS REPO GIT CLONE THE GIVEN REPO gh repo clone iamgoeldhruv/cliapp/n
+COMMANDS:/n
+1. register:/n
    to register the user in CLI tool.
 2.login:
     to login for registerd users.
