@@ -2,6 +2,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 
 class Database {
   Db ?_db;
+ 
 
   Database(String connectionString) {
     _db = Db(connectionString);
@@ -12,7 +13,7 @@ class Database {
     await _db?.open();
     
   }
-  Future<bool> checkuser(String username) async
+  Future<bool> readuser(String username) async
   {
     final collection = _db!.collection('userdata');
     final usernameToCheck = username;
@@ -26,7 +27,7 @@ class Database {
       return false;
     }
   }
-  Future<bool> checkpassword(String username,String password) async
+  Future<bool> readpassword(String username,String password) async
   {
     final collection = _db!.collection('userdata');
     
@@ -42,15 +43,33 @@ class Database {
    }
     
   }
-  Future<void> storeCredentials(String username, String password) async {
-    final collection = _db?.collection('userdata');
-    final document = {
-      '_id': ObjectId(), // Generate ObjectId for _id field
-      'username': username,
-      'password': password,
-    };
-    await collection?.insert(document);
+  
+  Future<bool> readActiveUser(String username) async
+  {
+    final collection = _db!.collection('activeuser');
+    final usernameToCheck = username;
+     final query = where.eq('username', usernameToCheck);
+    final result = await collection.findOne(query);
+   
+    if (result != null) {
+    return true;
+    }
+    else{
+      return false;
+    }
   }
+  Future<void> delete(String? username) async{
+    
+    
+    final activeUserCollection = _db!.collection('activeuser');
+
+  final usernameToDelete = username;
+
+  await activeUserCollection.deleteOne(where.eq('username', usernameToDelete));
+  
+    
+  }
+  
 
 
   
