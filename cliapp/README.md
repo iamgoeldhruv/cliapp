@@ -23,6 +23,7 @@ COMMANDS:
 10.inbox:
        any user can its personal message or can see the message in any server
 11.modusers:
+       to 
        to show modusers in any channel;
 12.showserver:
        to show entire structure of server;
