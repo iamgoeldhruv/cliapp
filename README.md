@@ -3,7 +3,7 @@ A command line tool trying to replicate Discord, created using Dart and utilizin
 
 **TO USE THIS REPO, GIT CLONE THE GIVEN REPO:**
 <pre>
-gh repo clone iamgoeldhruv/cliapp
+git repo clone iamgoeldhruv/cliapp
 </pre>
 COMMANDS:
 register:
